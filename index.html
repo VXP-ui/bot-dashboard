@@ -1,1 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Bot Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        discord: {
+                            blurple: '#5865F2',
+                            dark: '#36393F',
+                            darker: '#2F3136',
+                            light: '#F6F6F6'
+                        }
+                    },
+                    transitionProperty: {
+                        'width': 'width'
+                    }
+                }
+            }
+        };
+    </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body class="bg-white dark:bg-discord-dark text-gray-800 dark:text-gray-200 transition-colors duration-300">
+    <div class="flex h-screen">
+        <!-- Sidebar Overlay -->
+        <div id="sidebar-overlay" class="fixed inset-0 bg-black/50 z-40 hidden md:hidden"></div>
 
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed md:relative flex flex-col bg-gray-100 dark:bg-discord-darker shadow-lg z-50 
+            transform transition-all duration-300 ease-in-out md:translate-x-0 -translate-x-full md:w-64 w-64">
+            <div class="p-4 border-b border-gray-300 dark:border-gray-700 flex justify-between items-center">
+                <div class="flex items-center space-x-3 overflow-hidden">
+                    <div class="h-10 w-10 bg-discord-blurple rounded-full flex items-center justify-center shrink-0">
+                        <i class="fas fa-robot text-white"></i>
+                    </div>
+                    <h1 class="text-lg font-bold truncate">BotMaster</h1>
+                </div>
+                <button id="sidebar-toggle" class="md:hidden p-2 hover:bg-gray-200 dark:hover:bg-discord-dark rounded">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <nav class="flex-1 p-4 overflow-y-auto">
+                <ul class="space-y-2">
+                    <li><a href="#" class="sidebar-link block p-2 hover:bg-gray-200 dark:hover:bg-discord-dark rounded transition-colors" data-page="dashboard"><i class="fas fa-home mr-3"></i> <span class="sidebar-text">Dashboard</span></a></li>
+                    <li><a href="#" class="sidebar-link block p-2 hover:bg-gray-200 dark:hover:bg-discord-dark rounded transition-colors" data-page="servers"><i class="fas fa-server mr-3"></i> <span class="sidebar-text">Servers</span></a></li>
+                    <li><a href="#" class="sidebar-link block p-2 hover:bg-gray-200 dark:hover:bg-discord-dark rounded transition-colors" data-page="commands"><i class="fas fa-terminal mr-3"></i> <span class="sidebar-text">Commands</span></a></li>
+                    <li><a href="#" class="sidebar-link block p-2 hover:bg-gray-200 dark:hover:bg-discord-dark rounded transition-colors" data-page="analytics"><i class="fas fa-chart-line mr-3"></i> <span class="sidebar-text">Analytics</span></a></li>
+                    <li><a href="#" class="sidebar-link block p-2 hover:bg-gray-200 dark:hover:bg-discord-dark rounded transition-colors" data-page="settings"><i class="fas fa-cog mr-3"></i> <span class="sidebar-text">Settings</span></a></li>
+                    <li><a href="#" class="sidebar-link block p-2 text-red-500 hover:bg-red-500/10 rounded transition-colors" id="logout"><i class="fas fa-sign-out-alt mr-3"></i> <span class="sidebar-text">Logout</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 p-6 fade-in overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <button id="menu-toggle" class="md:hidden p-2 hover:bg-gray-100 dark:hover:bg-discord-darker rounded">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2 id="page-title" class="text-2xl font-semibold slide-in">Bot Status</h2>
+                <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-discord-darker transition-colors">
+                    <i class="fas fa-moon hidden dark:inline-block"></i>
+                    <i class="fas fa-sun inline-block dark:hidden"></i>
+                </button>
+            </div>
+            
+            <!-- Dashboard Content -->
+            <div id="dashboard" class="content-section space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div class="bg-white dark:bg-discord-darker p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Status</p>
+                        <p class="font-semibold flex items-center"><span class="h-2 w-2 rounded-full bg-green-500 mr-2 pulse"></span> Online</p>
+                    </div>
+                    <div class="bg-white dark:bg-discord-darker p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Servers</p>
+                        <p class="font-semibold text-2xl">24</p>
+                    </div>
+                    <div class="bg-white dark:bg-discord-darker p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Users</p>
+                        <p class="font-semibold text-2xl">1,234</p>
+                    </div>
+                    <div class="bg-white dark:bg-discord-darker p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow">
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Commands Today</p>
+                        <p class="font-semibold text-2xl">89</p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-discord-darker p-4 rounded-lg shadow-md">
+                        <h3 class="font-semibold mb-4">Command Usage</h3>
+                        <div class="h-64 bg-gray-100 dark:bg-discord-dark rounded animate-pulse"></div>
+                    </div>
+                    <div class="bg-white dark:bg-discord-darker p-4 rounded-lg shadow-md">
+                        <h3 class="font-semibold mb-4">Recent Activity</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-discord-dark rounded transition-colors">
+                                <span>User joined</span>
+                                <span class="text-sm text-gray-500">2 min ago</span>
+                            </div>
+                            <div class="flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-discord-dark rounded transition-colors">
+                                <span>Command executed: !help</span>
+                                <span class="text-sm text-gray-500">5 min ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
